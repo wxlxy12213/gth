@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@AI-ANCHOR: [AI-LOCATE-RADAR] 桌面端 AI 0.01秒 极速行号定位雷达 (GTH Demo)
+@AI-ANCHOR: [AI-LOCATE-RADAR] 桌面端 AI 0.01秒 极速行号定位雷达 (GTH)
 用法:
   1. python ai_locate.py                 -> 打印全项目所有 @AI-ANCHOR 锚点的【实时文件路径 + 精确起止行号】
   2. python ai_locate.py <关键词>        -> 按关键词搜索锚点、函数/类名，直接返回精确行号区间
@@ -107,7 +107,7 @@ def main():
 
     if not query:
         print("================================================================================")
-        print("⚡ GTH Demo 桌面端 AI 极速定位雷达 (实时行号地图 - 0.01s)")
+        print("⚡ GTH 桌面端 AI 极速定位雷达 (实时行号地图 - 0.01s)")
         print("用法: python ai_locate.py <关键词> [--show]")
         print("================================================================================")
         cur_file = None

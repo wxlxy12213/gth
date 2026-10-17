@@ -1,6 +1,6 @@
 // ============================================================================
 // @AI-ANCHOR: [JS-APP-BOOTSTRAP] 前端启动总控：DOM初始化、动态真源挂载、F5热重载、Tab导航、Mini-HUD与CMD+K
-// 升级重点 (GTH Demo)：
+// 升级重点 (GTH)：
 // 1. 按微模块职责分别初始化 `initFormListeners`, `initScopeSandboxListeners`, `initDocsStudio`, `initStepBlocksInteraction`, `initHistoryVaultListeners`。
 // 2. 从 `config/ocr_rules.json` 动态同步渲染属地乡镇 `<select>` 下拉框与 `TOWN_SUPERVISOR_MAP`，彻底收敛离散真源。
 // 3. 新增 Alt+1 ~ Alt+5 场景极速切换快捷键。

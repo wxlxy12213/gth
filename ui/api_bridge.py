@@ -1,5 +1,5 @@
 # @AI-ANCHOR: [BRIDGE-CORE-INIT] PyWebView 前后端通信桥接路由层 (<340行微切片)
-"""api_bridge.py - WebView2 前后端数据交互与业务调度桥接器 (GTH Demo 瘦身解耦版)。
+"""api_bridge.py - WebView2 前后端数据交互与业务调度桥接器 (瘦身解耦版)。
 
 架构升级重点：
 1. 彻底解除上帝类膨胀：所有 Win32 API、剪贴板、文件选择框、资源管理器调起与 HUD 句柄控制已下沉至 `engine/win_os_service.py`。

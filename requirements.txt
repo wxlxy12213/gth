@@ -1,4 +1,4 @@
-# GTH - 个体工商户政务登记与一键开办工作台 (Demo) 运行依赖
+# GTH - 个体工商户政务登记与一键开办工作台 运行依赖
 # 国内推荐安装源：pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 pywebview>=5.0

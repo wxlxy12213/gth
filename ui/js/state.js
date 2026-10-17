@@ -1,6 +1,6 @@
-// @AI-ANCHOR: [STATE-STORE-CONTRACT] 微响应式状态树 (Micro-Reactive Store)、GB11643 国标模算与动态按需校验 (GTH Demo)
+// @AI-ANCHOR: [STATE-STORE-CONTRACT] 微响应式状态树 (Micro-Reactive Store)、GB11643 国标模算与动态按需校验 (GTH)
 /**
- * state.js - 全局微响应式状态中心 (GTH Demo)
+ * state.js - 全局微响应式状态中心 (GTH)
  * 核心升级：
  * 1. 引入基于 ES6 Proxy + 发布订阅 (`subscribeState` / `batchUpdateState`) 的轻量微响应式机制，彻底告别散乱的手动 DOM 同步。
  * 2. 内置与后端 `engine/id_validator.py` 完全同源的 18 位身份证 ISO 7064:1983.MOD 11-2 模算校验器。

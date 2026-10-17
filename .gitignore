@@ -27,5 +27,4 @@ __pycache__/
 *.pdf
 *.docx
 *.doc
-README.md
-tests/test_edge_cases.py
+

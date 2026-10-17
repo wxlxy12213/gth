@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@AI-ANCHOR: [FAST-CHECK-RUNNER] 毫秒级靶向自检与前后端 DOM/API 契约守卫 (GTH Demo)
+@AI-ANCHOR: [FAST-CHECK-RUNNER] 毫秒级靶向自检与前后端 DOM/API 契约守卫 (GTH)
 用法:
   python tests/fast_check.py ocr    # 验证 OCR 消元、双身份证配对与地址倒置缝合
   python tests/fast_check.py q      # 验证 Action IR 编译与 @GTH-STATE-IR 零损逆向还原

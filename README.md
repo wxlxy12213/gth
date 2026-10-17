@@ -1,10 +1,10 @@
-# GTH — 个体工商户政务登记与一键开办工作台 (Demo)
+# GTH — 个体工商户政务登记与一键开办工作台
 > **Individual Business Gov RPA Workbench** · 面向山东省市场主体全程电子化登记系统的全流程自动化、智能办件与文书生成桌面平台。
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2011%20%7C%20Edge%20WebView2-blue?style=flat-square)](https://developer.microsoft.com/microsoft-edge/webview2/)
 [![Python](https://img.shields.io/badge/Python-3.11%2B%20%2F%203.15-yellow?style=flat-square)](https://www.python.org/)
 [![UI Style](https://img.shields.io/badge/Design-Neo--Brutalist%20Experimental-ff007d?style=flat-square)](https://www.stylekit.top/zh/templates/anx-blog)
-[![RPA Engine](https://img.shields.io/badge/RPA-KeySprite%202014%20.Q%20%2B%20Action%20IR-green?style=flat-square)](https://github.com/)
+[![RPA Engine](https://img.shields.io/badge/RPA-KeySprite%202014%20.Q%20%2B%20Action%20IR-green?style=flat-square)](https://github.com/wxlxy12213/gth)
 
 ---
 
@@ -23,13 +23,13 @@
 
 ## 2. 视觉与美术设计系统 (Visual & Aesthetic Design System)
 
-本工作台在界面交互与视觉表达上，摒弃了传统企业管理软件单调、灰暗的表格模板，贯彻了独特的个人审美与实验性设计语言，并在 Demo 中全面对齐**人类使用哲学**与 **1080P 全屏免滚工程学**：
+本工作台在界面交互与视觉表达上，摒弃了传统企业管理软件单调、灰暗的表格模板，贯彻了独特的个人审美与实验性设计语言，全面对齐**人类使用哲学**与 **1080P 全屏免滚工程学**：
 
 ### 2.1 美术溯源与设计基因
 - **核心溯源**：本系统界面设计参考并借鉴了开源工程 [实验风博客示例 (Anx Blog)](https://www.stylekit.top/zh/templates/anx-blog)（基于 StyleKit Templates 的实验性设计体系）。
 - **设计哲学**：新野兽派（Neo-Brutalism）与先锋工装控制台（Cyber-Industrial Console）的深度融合。
 
-### 2.2 强化审美特征与人类工程学（Demo 升级）
+### 2.2 强化审美特征与人类工程学
 - **字体风格大胆（Loud & Bold Typography）**：大面积采用超粗字重无衬线体（Impact / Arial Black / PingFang SC Heavy）与等宽工程字体（Cascadia Code / Consolas），标题与核心状态信息极具辨识度。
 - **边框粗犷高反差 & 实体硬落焦投影**：全界面采用纯黑实体线描边与硬落焦阴影（无高斯模糊扩散），赋予界面如工业物理按键般的扎实按压反馈。
 - **方格工程画布与 CMYK 电光强调色**：以 44px 浅灰参考网格为画布基底，点缀高饱和度的电光粉（`#ff007d`）、电光绿（`#ccff00`）、青蓝（`#00d9ff`）与日光黄（`#ffd400`）。
@@ -106,9 +106,12 @@ GTH/
 │   ├── api_bridge.py              # 轻量 IPC 路由桥接层（已与 Win32 OS 调用解耦）
 │   └── workbench.html             # 桌面工作台主页面（5 大场景符合人类直觉排布）
 ├── tests/                         # 自动化验证与毫秒级靶向快检
-│   └── fast_check.py              # 核心功能与前端 DOM ID 契约毫秒级快检 (ocr/q/scope/docx/ui/all)
+│   ├── fast_check.py              # 核心功能与前端 DOM ID 契约毫秒级快检 (ocr/q/scope/docx/ui/all)
+│   └── test_edge_cases.py         # 边界情况全量用例深度测试
 ├── .aiignore / .cursorignore / .geminiignore / .gitignore / .rgignore
 ├── .cursorrules                   # 本地 AI 极速维护铁律与六大架构红线
+├── LICENSE                        # 开源许可证 (MIT License)
+├── requirements.txt               # 运行环境与依赖清单
 ├── ai_locate.py                   # 0.01 秒实时行号与 @AI-ANCHOR 代码切片定位雷达
 ├── app_main.py                    # 桌面端主程序入口 (PyWebView 窗口宿主)
 ├── build_exe.py / launcher.cs     # 原生 C# 极速无控制台启动外壳源码与编译脚本
@@ -123,7 +126,14 @@ GTH/
 
 ### 5.1 启动方式
 * **日常使用**：双击根目录下的 **`个体户填报.exe`**，秒级拉起独立工作台窗口。
-* **开发者源码启动**：`python app_main.py`
+* **开发者源码启动**：
+  ```powershell
+  # 1. 安装核心依赖（推荐国内清华镜像源）
+  pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+  # 2. 启动桌面端界面
+  python app_main.py
+  ```
 
 ### 5.2 快捷交互与快捷键
 * <kbd>Alt</kbd> + <kbd>1</kbd> ~ <kbd>5</kbd>：一键切换顶部 `01 填报总控` ~ `05 历史档案` 五大场景。
@@ -134,5 +144,8 @@ GTH/
 
 ### 5.3 毫秒级靶向自检
 ```powershell
-python tests/fast_check.py all
+python tests/fast_check.py all     # 全量核心模块冒烟自检 (< 600ms)
+python tests/fast_check.py ocr     # 单独验证 OCR 与地址切分
+python tests/fast_check.py q       # 单独验证 .Q 编译与 Action IR 还原
+python tests/fast_check.py ui      # 单独验证前端 DOM ID 契约
 ```

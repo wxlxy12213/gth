@@ -1,6 +1,6 @@
 """
 @AI-ANCHOR: [Q-COMPILER-CORE] 声明式按键精灵 .Q 脚本编译器与 Action IR 中间表示引擎
-q_compiler.py - 声明式 Action IR + .Q 脚本编译器 (GTH Demo 架构升级版)。
+q_compiler.py - 声明式 Action IR + .Q 脚本编译器 (Action IR 架构版)。
 
 核心升级：
 1. 引入结构化动作中间表示 `ActionNode` (Action IR)，解耦「业务动作编排」与「按键精灵底层语法渲染」。

@@ -26,7 +26,7 @@ def parse_q_script(q_source: str | Path) -> ApplicantState:
     else:
         text = str(q_source)
 
-    # 1. 优先尝试解析 Demo 结构化内嵌元数据 @GTH-STATE-IR（零损耗还原，不受单步裁剪或注释微调影响）
+    # 1. 优先尝试解析 结构化内嵌元数据 @GTH-STATE-IR（零损耗还原，不受单步裁剪或注释微调影响）
     m_ir = re.search(r"//\s*@GTH-STATE-IR:\s*(\{[^\r\n]+\})", text)
     if m_ir:
         try:

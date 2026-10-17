@@ -1,4 +1,4 @@
-/* @AI-ANCHOR: [CSS-SCENE1-WORKBENCH] 场景 01：1080P 全闭环三栏工作台、温和三态校验与积木矩阵 (GTH Demo) */
+/* @AI-ANCHOR: [CSS-SCENE1-WORKBENCH] 场景 01：1080P 全闭环三栏工作台、温和三态校验与积木矩阵 (GTH) */
 .scene-workbench-grid {
   display: grid;
   grid-template-columns: minmax(295px, 0.96fr) minmax(370px, 1.26fr) minmax(350px, 1.18fr);

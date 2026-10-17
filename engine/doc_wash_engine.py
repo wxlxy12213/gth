@@ -1,6 +1,6 @@
 """
 @AI-ANCHOR: [DOC-WASH-ENGINE-CORE] 业务员文书智能洗牌与桌面直通出件引擎 (<350行微切片)
-doc_wash_engine.py - 针对业务员随手制作的 .doc/.docx 进料，智能清洗要素并生成标准新文书 (GTH Demo 单源复用版)。
+doc_wash_engine.py - 针对业务员随手制作的 .doc/.docx 进料，智能清洗要素并生成标准新文书 (单源复用版)。
 
 架构升级重点：
 1. 彻底解决「文件生成引擎双轨分裂」与「外部环境脆弱性」：
