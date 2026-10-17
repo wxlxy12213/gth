@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# C extensions
+*.so
+*.dylib
+*.dll
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.whl
+*.tar.gz
+*.zip
+*.7z
+
+# Executables (compiled binaries should be published via GitHub Releases)
+*.exe
+
+# WebView2 and app run cache
+.cache/
+.cache/**
+
+# Local business output and client materials (strictly protected from VCS)
+output/
+output/**
+*.manifest.json
+tests/_test_desktop/
+tests/*.q
+
+# Temporary files and Office locks
+*.tmp
+~$*.docx
+~$*.doc
+.DS_Store
+Thumbs.db

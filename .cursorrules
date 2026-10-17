@@ -1,0 +1,74 @@
+# ⚡ GTH 桌面端 AI 极速精准定位与秒级改码铁律 (AGENTS.md V3.0)
+
+> **最高优先级指令（致桌面端 AI：Antigravity / Cursor / Windsurf / Cline / Copilot）**
+> 用户在此项目中后续会**高频、小步快跑地叠加新功能或微调界面/逻辑**。
+> **严禁**任何全库盲搜、**严禁**扫描 `config/scope_library_371300.json`、**严禁**一次性读取超过 250 行代码！
+> 每次收到修改需求，你必须在 **10 秒内** 完成定位，并在 **1～2 分钟内** 完成局部微创修改！
+
+---
+
+## 一、 为什么以前改代码要 17～30 分钟？现在如何做到 10 秒定位？
+
+本项目已完成 **「微切片拆解 + `@AI-ANCHOR` 语义锚点 + `ai_locate.py` 实时行号雷达 + 四重物理 Ignore 护盾」** 改造：
+1. **第一招（0.01 秒直接拿行号与代码）**：
+   收到任何修改任务，**第一步直接运行终端命令**：
+   ```bash
+   python ai_locate.py <关键词> --show
+   ```
+   - 例如想改「单步重编」：`python ai_locate.py 单步 --show`
+   - 例如想改「住改商导图」：`python ai_locate.py ZHUGAI --show`
+   - 例如想改「积木步骤卡片」：`python ai_locate.py STEP-BLOCKS --show`
+   - 不带参数运行 `python ai_locate.py` 可在 0.01 秒内打印全项目所有微模块文件的**实时精确起止行号地图**！
+2. **第二招（微文件直接定位，单文件均已拆小至 80～350 行）**：
+   所有原本上千行的大文件已全部按职责拆成独立微文件，改哪一块只碰哪一个微文件！
+
+---
+
+## 二、 全项目微文件职责速查表（按需直达，严禁跨文件乱读）
+
+### 1. 前端交互微模块 (`ui/js/` —— 按 4 大场景拆分为独立小文件)
+| 你要改的功能场景 | 唯一目标微文件 | 行数规模 | 核心 `@AI-ANCHOR` 锚点 |
+| :--- | :--- | :--- | :--- |
+| **场景 01：表单输入、OCR 按钮、解析 .Q 还原、一键出件、单步重编** | `ui/js/tab_workbench.js` | ~470 行 | `[WB-FORM-LISTENERS]`, `[WB-OCR-CLEAN]`, `[WB-GENERATE-DISPATCH]` |
+| **场景 02：经营范围黄金套餐速切、已选范围列表、设为主营/剔除** | `ui/js/tab_scope.js` | ~110 行 | `[SCOPE-PACKAGE-GRID]`, `[SCOPE-SELECTED-LIST]` |
+| **场景 03：历史办件档案列表、关键词过滤、单条删除、一键调入** | `ui/js/tab_history.js` | ~80 行 | `[HISTORY-RENDER-LIST]` |
+| **场景 04：01~05 积木步骤单击/双击弹窗、坐标方块与时间方块配置** | `ui/js/tab_config.js` | ~370 行 | `[CFG-STEP-BLOCKS]`, `[CFG-VISUAL-EDITOR]` |
+| **全局状态契约、按所选积木步骤动态校验、置信度着色、DOM 同步** | `ui/js/state.js` | ~280 行 | `[STATE-STORE-CONTRACT]`, `[STATE-STEPS-VALIDATOR]`, `[STATE-DOM-SYNC]` |
+| **前端启动入口、F5 热重载、顶部 Tab 切换、Mini-HUD、CMD+K** | `ui/js/app.js` | ~220 行 | `[APP-INIT-DATA]`, `[APP-TAB-HUD-CTRL]`, `[APP-CMDK-PALETTE]` |
+| **01~05 步骤坐标与延时中文说明静态字典（平时无需读取）** | `ui/js/config_meta.js` | ~160 行 | `[JS-CONFIG-META]`（已被 `.rgignore` 屏蔽防干扰） |
+
+### 2. 前端样式微模块 (`ui/css/` —— 拆分为 3 个独立样式表)
+| 你要改的视觉样式 | 唯一目标微文件 | 行数规模 | 核心 `@AI-ANCHOR` 锚点 |
+| :--- | :--- | :--- | :--- |
+| **全局颜色变量、字号基准、按钮硬阴影、顶部 CMYK 导航条** | `ui/css/base.css` | ~250 行 | `[CSS-BASE-THEME-NAV]`, `[CSS-BRUTAL-BUTTONS]`, `[CSS-TOP-NAVBAR]` |
+| **场景 01 填报工坊三栏栅格、表单校验高亮、右栏 01~05 积木卡片** | `ui/css/workbench.css` | ~340 行 | `[CSS-SCENE1-WORKBENCH]`, `[CSS-STEP-BLOCKS-MATRIX]` |
+| **场景 02 经营范围、场景 03 历史、场景 04 坐标方块、弹窗与 Mini-HUD** | `ui/css/panels.css` | ~420 行 | `[CSS-SCENE2-SCOPE]`, `[CSS-SCENE4-CONFIG]`, `[CSS-MODALS-CMDK]`, `[CSS-MINI-HUD]` |
+
+### 3. 前端 DOM 骨架 (`ui/workbench.html`)
+- 通过 `python ai_locate.py HTML_ --show` 直接获取对应区块行号：
+  - `[HTML_TOP_BAR]` (顶栏) / `[HTML_WB_COL1_OCR]` (左栏OCR) / `[HTML_WB_COL2_FORM]` (中栏表单) / `[HTML_WB_COL3_PIPELINE]` (右栏01~05积木与交付柜)
+  - `[HTML_TAB2_SCOPE]` (经营范围沙盒) / `[HTML_TAB3_HISTORY]` (历史档案) / `[HTML_TAB4_CONFIG]` (坐标积木配置) / `[HTML_MODALS_AND_HUD]` (弹窗与HUD)
+
+### 4. 后端核心引擎微模块 (`engine/` & `ui/api_bridge.py`)
+| 你要改的后端逻辑 | 唯一目标微文件 | 行数规模 | 核心 `@AI-ANCHOR` 锚点 |
+| :--- | :--- | :--- | :--- |
+| **前后端 API 桥接接口 (`window.pywebview.api.*`)** | `ui/api_bridge.py` | ~530 行 | `[BRIDGE-OCR-CLEAN]`, `[BRIDGE-GENERATE-ALL]`, `[BRIDGE-SINGLE-STEP-Q]` |
+| **按键精灵 `.Q` 脚本正向编译（01~05 阶段指令生成）** | `engine/q_compiler.py` | ~560 行 | `[Q-STEP1-HEMING]` ~ `[Q-STEP5-SUPERVISOR]`, `[Q-COMPILE-ENTRY]` |
+| **按键精灵 `.Q` 脚本逆向解析还原表单（免 manifest）** | `engine/q_parser.py` | ~105 行 | `[Q-PARSE-MAIN]` |
+| **工商 Word 文书并发生成（场地证明解耦、租赁合同、住改商）** | `engine/docx_engine.py` | ~340 行 | `[DOCX-SITE-PROOF]`, `[DOCX-SITE-PROOF-ONLY]`, `[DOCX-GENERATE-ALL]` |
+| **住改商证明前两页高清 PNG 自动导图** | `engine/zhugai_img_exporter.py` | ~200 行 | `[ZHUGAI-FONT-AND-PARSE]`, `[ZHUGAI-EXPORT-PNG]` |
+| **OCR 乱序文本清洗、双身份证角色配对、店铺字号提取** | `engine/ocr_cleaner.py` | ~420 行 | `[OCR-CLEANER-CORE]`, `[OCR-MAIN-PIPELINE]` |
+| **畸变地址消噪、倒置缝合、乡镇与监管所映射** | `engine/addr_parser.py` | ~130 行 | `[ADDR-PARSER-CORE]` |
+| **办件状态数据结构 `ApplicantState` 与积木步骤过滤** | `engine/models.py` | ~220 行 | `[MODELS-APPLICANT-STATE]` |
+
+---
+
+## 三、 极速验证指令（改完代码后 0.1 秒自检，严禁跑慢速全量测试）
+
+修改完任何 Python 逻辑后，只运行对应的毫秒级靶向自检命令：
+```bash
+python tests/fast_check.py ocr     # 改了 OCR/地址/身份证 (< 35ms)
+python tests/fast_check.py q       # 改了 .Q 脚本编译或逆向解析 (< 190ms)
+python tests/fast_check.py scope   # 改了经营范围检索 (< 5ms)
+python tests/fast_check.py docx    # 改了 Word 文书或住改商导图 (< 650ms)
+```

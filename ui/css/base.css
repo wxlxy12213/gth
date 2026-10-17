@@ -1,0 +1,300 @@
+/* @AI-ANCHOR: [CSS-BASE-THEME-NAV] 全局色彩变量、字体、硬朗按钮与顶部 CMYK 导航栏 (GTH V3.0) */
+/* ==========================================================================
+   GTH V3.0 Neo-Brutalist High-Visibility & 1080P Ergonomic Design System
+   升级重点：
+   1. 100% 保留 README.md 定义的 Neo-Brutalist 新野兽派先锋工装审美（3~4px 纯黑实线、硬落焦阴影、44px 工程网格、CMYK 电光撞色）。
+   2. 顶部导航按「主作业高频流 (01填报 -> 02范围 -> 03文书)」与「辅助配置/归档 (04坐标 -> 05历史档案)」科学分区。
+   3. 针对 1080P (1920x1080 / 1280x820) 屏幕精细优化纵向高度预算，确保一屏完整展示零遮挡。
+   ========================================================================== */
+:root {
+  --accent-pink: #ff007d;
+  --accent-green: #ccff00;
+  --accent-blue: #00d9ff;
+  --accent-yellow: #ffd400;
+  --accent-orange: #ff9800;
+  --accent-violet: #b388ff;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-100: #f8fafc;
+  --color-gray-200: #f1f5f9;
+  --color-gray-300: #e2e8f0;
+  --color-gray-500: #475569;
+  --color-gray-700: #1e293b;
+
+  --font-serif: "Playfair Display", "Didot", "Bodoni MT", Georgia, "Songti SC", "SimSun", serif;
+  --font-display: "Impact", "Arial Black", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "Cascadia Code", "Fira Code", Consolas, Monaco, "Microsoft YaHei", monospace;
+
+  --border-thick: 3.5px solid #000000;
+  --border-medium: 2.5px solid #000000;
+  --border-thin: 2px solid #000000;
+  --shadow-hard-sm: 3.5px 3.5px 0px #000000;
+  --shadow-hard-md: 5px 5px 0px #000000;
+  --shadow-hard-lg: 7px 7px 0px #000000;
+  --shadow-hard-xl: 10px 10px 0px #000000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body {
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ffffff;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.055) 1px, transparent 1px);
+  background-size: 44px 44px;
+  color: #000000;
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 800;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 8% 25%, rgba(255, 0, 125, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 92% 18%, rgba(204, 255, 0, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 85% 82%, rgba(0, 217, 255, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 18% 85%, rgba(255, 212, 0, 0.14) 0%, transparent 40%);
+  filter: blur(55px);
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-left: 2.5px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border: 2px solid #ffffff;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-pink);
+}
+
+/* @AI-ANCHOR: [CSS-BRUTAL-BUTTONS] 按钮体系 (硬朗物理按压感) ─── */
+.brutal-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  border: var(--border-medium);
+  background-color: #ffffff;
+  color: #000000;
+  box-shadow: var(--shadow-hard-sm);
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.12s;
+  white-space: nowrap;
+}
+.brutal-btn:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: var(--shadow-hard-md);
+}
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+.brutal-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 2px 2px 0px #000 !important;
+}
+.brutal-btn.btn-yellow { background-color: var(--accent-yellow); color: #000000; }
+.brutal-btn.btn-green  { background-color: var(--accent-green);  color: #000000; }
+.brutal-btn.btn-cyan   { background-color: var(--accent-blue);   color: #000000; }
+.brutal-btn.btn-pink   { background-color: var(--accent-pink);   color: #ffffff; }
+.brutal-btn.btn-black  { background-color: #000000;              color: #ffffff; }
+
+.brutal-card {
+  background: #ffffff;
+  border: var(--border-thick);
+  box-shadow: var(--shadow-hard-lg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+/* @AI-ANCHOR: [CSS-TOP-NAVBAR] 顶部超级导航条 (主作业区 + 辅助归档区分隔) ─── */
+.avant-top-bar {
+  height: 52px;
+  min-height: 52px;
+  max-height: 52px;
+  margin: 8px 12px 0 12px;
+  background: #ffffff;
+  border: var(--border-thick);
+  box-shadow: var(--shadow-hard-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+.avant-top-bar * {
+  white-space: nowrap !important;
+}
+
+.avant-nav-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.nav-zone-divider {
+  width: 3px;
+  height: 26px;
+  background: #000000;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.avant-nav-pill {
+  background: #ffffff;
+  border: var(--border-medium);
+  color: #000000;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 900;
+  padding: 5px 12px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.08s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+.avant-nav-pill.nav-pill-aux {
+  background: var(--color-gray-100);
+}
+.avant-nav-pill .nav-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--accent-pink);
+  transition: color 0.08s;
+}
+.avant-nav-pill .nav-badge {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 900;
+  opacity: 0.85;
+}
+.avant-nav-pill:hover {
+  background: var(--accent-yellow);
+  color: #000000;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
+}
+.avant-nav-pill:hover .nav-num {
+  color: #000000;
+}
+.avant-nav-pill:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
+.avant-nav-pill.active {
+  background: #000000;
+  color: var(--accent-green);
+  border-color: #000000;
+  box-shadow: 3.5px 3.5px 0px var(--accent-green);
+}
+.avant-nav-pill.active .nav-num {
+  color: var(--accent-yellow);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+.topbar-btn {
+  padding: 5px 10px !important;
+  font-size: 13.5px !important;
+  flex-shrink: 0;
+  box-shadow: 2.5px 2.5px 0px #000000;
+}
+.topbar-btn .btn-glyph {
+  font-size: 13.5px;
+  line-height: 1;
+}
+
+@media (max-width: 1280px) {
+  .avant-top-bar { padding: 0 8px; gap: 6px; }
+  .avant-nav-group { gap: 5px; }
+  .avant-nav-pill { padding: 5px 9px; font-size: 13.5px; gap: 4px; }
+  .topbar-btn { padding: 5px 8px !important; font-size: 12.5px !important; }
+}
+
+@media (max-width: 1100px) {
+  .avant-nav-pill { padding: 4px 7px; font-size: 12.5px; }
+  .topbar-btn { padding: 4px 7px !important; font-size: 12px !important; }
+}
+
+/* ─── CMYK 高对比英文标签 ─── */
+.cmyk-tag-pink, .cmyk-tag-cyan, .cmyk-tag-yellow, .cmyk-tag-green {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  padding: 1px 6px;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+}
+.cmyk-tag-pink   { background: var(--accent-pink);   color: #ffffff; }
+.cmyk-tag-cyan   { background: var(--accent-blue);   color: #000000; }
+.cmyk-tag-yellow { background: var(--accent-yellow); color: #000000; }
+.cmyk-tag-green  { background: var(--accent-green);  color: #000000; }
+
+/* ─── 主舞台布局 (针对 1080P 屏幕精准释放高度) ─── */
+.main-viewport {
+  height: calc(100vh - 52px - 18px);
+  margin: 8px 12px 8px 12px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+.tab-scene {
+  display: none;
+  width: 100%;
+  height: 100%;
+  gap: 12px;
+  overflow: hidden;
+}
+.tab-scene.active {
+  display: flex;
+}

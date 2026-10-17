@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个体户填报工作台</title>
+  <link rel="icon" type="image/x-icon" href="../assets/app.ico">
+  <link rel="icon" type="image/svg+xml" href="../assets/app.svg">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <!-- GTH V3.0 微模块化样式表：base.css / workbench.css / panels.css -->
+  <link rel="stylesheet" href="css/base.css?v=3.0.0">
+  <link rel="stylesheet" href="css/workbench.css?v=3.0.0">
+  <link rel="stylesheet" href="css/panels.css?v=3.0.0">
+</head>
+<body>
+
+  <!-- @AI-ANCHOR: [HTML_TOP_BAR] 1. 顶部超级导航与 CMYK 视觉总控条（按人类办件主链路 + 辅助归档分区） -->
+  <header class="avant-top-bar">
+    <nav class="avant-nav-group" role="tablist">
+      <!-- 主作业高频链路：01 填报工坊 -> 02 经营范围 -> 03 文书工坊 -->
+      <button class="avant-nav-pill active" data-tab="workbench" role="tab" title="一站式进料识别、要素核对、套餐速配与脚本/文书出件 (Alt+1)">
+        <span class="nav-num">01</span>
+        <span class="nav-label">填报工坊</span>
+      </button>
+      <button class="avant-nav-pill" data-tab="scope" role="tab" title="2064条官方底库检索、黄金套餐与政务网原生范围差集比对 (Alt+2)">
+        <span class="nav-num">02</span>
+        <span class="nav-label">经营范围沙盒</span>
+        <span class="nav-badge">(<span id="nav-scope-count">0</span>)</span>
+      </button>
+      <button class="avant-nav-pill" data-tab="docs" role="tab" title="业务员进料文书拖拽洗牌与桌面直通独立出件 (Alt+3)">
+        <span class="nav-num">03</span>
+        <span class="nav-label">文书工坊</span>
+      </button>
+
+      <span class="nav-zone-divider" aria-hidden="true"></span>
+
+      <!-- 低频系统调参与历史归档：04 坐标积木 -> 05 历史档案（归档置末位） -->
+      <button class="avant-nav-pill nav-pill-aux" data-tab="settings" role="tab" title="山东一窗通 01~05 阶段屏幕坐标与延时方块配置 (Alt+4)">
+        <span class="nav-num">04</span>
+        <span class="nav-label">坐标与延时积木</span>
+      </button>
+      <button class="avant-nav-pill nav-pill-aux" data-tab="analytics" role="tab" title="历史办件快照搜索、一键复原与目录归档 (Alt+5)">
+        <span class="nav-num">05</span>
+        <span class="nav-label">历史档案</span>
+        <span class="nav-badge">(<span id="metric-total-records">0</span>)</span>
+      </button>
+    </nav>
+
+    <!-- 右侧：全局高频动作区 -->
+    <div class="topbar-right">
+      <button class="brutal-btn btn-pink topbar-btn" id="btn-top-reset" title="清空当前客户数据，开启下一单新办件">
+        <span class="btn-glyph">🧹</span>
+        <span class="btn-text">新办件</span>
+      </button>
+      <button class="brutal-btn topbar-btn" id="btn-trigger-cmdk" title="全局极速命令面板 (Ctrl+K)">
+        <span class="btn-glyph">⌘</span>
+        <span class="btn-text">CMD+K</span>
+      </button>
+      <button class="brutal-btn btn-yellow topbar-btn" id="btn-toggle-hud" title="切换 380×140 悬浮 Mini-HUD 盯盘伴随窗 (Ctrl+M)">
+        <span class="btn-glyph">🪟</span>
+        <span class="btn-text">悬浮 HUD</span>
+      </button>
+      <button class="brutal-btn btn-green topbar-btn" id="btn-open-dir" title="打开当前客户桌面同名文件夹">
+        <span class="btn-glyph">📂</span>
+        <span class="btn-text">主体目录</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="main-viewport">
+
+    <!-- @AI-ANCHOR: [HTML_TAB1_WORKBENCH] 场景 01: 智能办件总控台 (1080P 全屏免滚三栏全闭环网格) -->
+    <div class="tab-scene active" id="scene-workbench">
+      <div class="scene-workbench-grid">
+        
+        <!-- @AI-ANCHOR: [HTML_WB_COL1_EXTRACT] 第 1 栏: 01 智能识萃脱水 + 路由状态 + 独立文书快出箱 -->
+        <div class="brutal-card">
+          <div class="card-top-meta">
+            <div>
+              <div class="card-num-category"><span class="cmyk-tag-pink">01 // INGEST</span> <span>粘贴即自动识别</span></div>
+              <div class="card-main-heading">智能识萃与独立文书</div>
+            </div>
+            <span class="conf-chip conf-green" id="ocr-cost-badge">0.0 ms</span>
+          </div>
+          <div class="card-scroll-body">
+            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+              <button class="brutal-btn btn-yellow" id="btn-read-clipboard" style="flex: 1.15; padding: 7px 10px;"><span>📋 抓取剪贴板识别</span></button>
+              <button class="brutal-btn btn-green" id="btn-clean-ocr" style="flex: 0.85; padding: 7px 10px;"><span>✨ 重新脱水</span></button>
+            </div>
+            <textarea class="brutal-textarea" id="ocr-raw-input" style="flex: 1; min-height: 115px;" placeholder="直接 Ctrl+V 粘贴微信聊天记录 / 身份证 / 营业执照文字（粘贴即自动识别）：&#10;• 双身份证自动配对「经营者 + 房东」并切租赁模式&#10;• 18 位身份证国标 MOD 11-2 模算核验&#10;• 乱序地址自动拼接并锁定乡镇市场监管所"></textarea>
+
+            <div class="stage-route-banner">
+              <div class="stage-route-row">
+                <span class="stage-route-label">当前文书分流：</span>
+                <span id="stage-desc-tag" class="stage-route-val">Stage 2 (住改商+导图)</span>
+              </div>
+              <div class="stage-route-row" style="margin-top: 4px;">
+                <span class="stage-route-label">管辖市场监管所：</span>
+                <span id="sup-desc-tag" class="stage-route-sup">马头所</span>
+              </div>
+            </div>
+
+            <!-- 找回的独立文书快出箱：无需切 Tab 即可单打场地证明/住改商或送入洗牌工坊 -->
+            <div class="doc-matrix-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <span class="form-label" style="font-size: 13px;">📄 线下法定文书快出与伴生开关</span>
+                <button class="brutal-btn btn-cyan btn-step-mini" id="btn-push-to-docs" title="将当前客户信息一键带入 03 文书工坊精调">送文书工坊 ➔</button>
+              </div>
+              <div class="doc-check-strip">
+                <label class="brutal-check-label" title="勾选后，点击右侧一键编译出件时会同步生成《经营场所使用证明》">
+                  <input type="checkbox" id="chk-include-site-proof">
+                  <span>伴生场地证明</span>
+                </label>
+                <label class="brutal-check-label" title="勾选后，一键出件时自动导出《住改商证明》前两页高清 PNG 直传政务网">
+                  <input type="checkbox" id="chk-export-zhugai-img" checked>
+                  <span>住改商前2页导图</span>
+                </label>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
+                <button class="brutal-btn btn-yellow" id="btn-gen-site-proof" style="padding: 6px 8px; font-size: 12.5px;" title="在主体文件夹单独生成《经营场所使用证明》">🏢 单独出场地证明</button>
+                <button class="brutal-btn btn-cyan" id="btn-gen-zhugai-img" style="padding: 6px 8px; font-size: 12.5px;" title="在主体文件夹单独生成《住改商证明》(纯DOCX)">🏠 单独出住改商</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- @AI-ANCHOR: [HTML_WB_COL2_FIELDS] 第 2 栏: 02 核心要素装配 (温和三态校验 + 1080P 紧凑双列) -->
+        <div class="brutal-card">
+          <div class="card-top-meta">
+            <div>
+              <div class="card-num-category"><span class="cmyk-tag-cyan">02 // CORE FIELDS</span> <span>按所选步骤智能校验</span></div>
+              <div class="card-main-heading">核心要素装配</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="conf-chip conf-amber" id="audit-rule-badge">含核名 (1-5步 · 需字号)</span>
+              <button class="brutal-btn btn-pink btn-step-mini" id="btn-reset-form" title="清空当前表单字段">🧹 清空</button>
+            </div>
+          </div>
+          <div class="card-scroll-body">
+            <div class="dynamic-rule-strip" id="dynamic-rule-strip">
+              💡 <b>校验策略</b>：含【01 核名】需填<b>字号、姓名、身份证</b>；单击右侧取消 01 步即切为<b>免字号模式</b>。
+            </div>
+
+            <div class="wb-fields-two-col">
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-owner_name">经营者姓名</label>
+                  <span class="conf-chip conf-neutral" id="chip-owner_name">待填</span>
+                </div>
+                <input type="text" class="brutal-input" id="field-owner_name" placeholder="经营者真实姓名">
+              </div>
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-phone">联系电话 (11位)</label>
+                  <span class="conf-chip conf-neutral" id="chip-phone">待填</span>
+                </div>
+                <input type="text" class="brutal-input" id="field-phone" placeholder="11位手机号码">
+              </div>
+            </div>
+
+            <div class="wb-fields-two-col">
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-owner_id">身份证号 (18位国标)</label>
+                  <span class="conf-chip conf-neutral" id="chip-owner_id">待填</span>
+                </div>
+                <input type="text" class="brutal-input" id="field-owner_id" placeholder="371322...">
+              </div>
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-shop_name">店铺全称 / 字号</label>
+                  <span class="conf-chip conf-neutral" id="chip-shop_name">待填</span>
+                </div>
+                <input type="text" class="brutal-input" id="field-shop_name" placeholder="如：郯城县马头镇东爱百货店">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row-header">
+                <label class="form-label" for="field-id_addr">户籍住所地址 (身份证地址)</label>
+                <span class="conf-chip conf-neutral" id="chip-id_addr">待填</span>
+              </div>
+              <input type="text" class="brutal-input" id="field-id_addr" placeholder="山东省临沂市郯城县... (身份证住址)">
+            </div>
+
+            <div class="brutal-divider"></div>
+
+            <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 8px;">
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-town">属地乡镇街道</label>
+                  <span class="conf-chip conf-green" id="chip-town">✓ 就绪</span>
+                </div>
+                <select class="brutal-select" id="field-town">
+                  <option value="马头镇">马头镇</option>
+                  <option value="郯城街道">郯城街道</option>
+                  <option value="郯城经济开发区">郯城经济开发区</option>
+                  <option value="李庄镇">李庄镇</option>
+                  <option value="重坊镇">重坊镇</option>
+                  <option value="红花镇">红花镇</option>
+                  <option value="庙山镇">庙山镇</option>
+                  <option value="杨集镇">杨集镇</option>
+                  <option value="港上镇">港上镇</option>
+                  <option value="高峰头镇">高峰头镇</option>
+                  <option value="归昌乡">归昌乡</option>
+                  <option value="胜利镇">胜利镇</option>
+                  <option value="泉源镇">泉源镇</option>
+                  <option value="花园镇">花园镇</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-row-header">
+                  <label class="form-label" for="field-supervisor">管辖监管所 (联动)</label>
+                  <span class="conf-chip conf-green">LINKED</span>
+                </div>
+                <input type="text" class="brutal-input" id="field-supervisor" value="马头所" readonly style="background: #f1f5f9;">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row-header">
+                <label class="form-label" for="field-shop_address">经营场所详细地址</label>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button type="button" class="brutal-btn btn-step-mini" id="btn-copy-id-addr" title="将户籍地址一键复制为经营场所地址">同户籍</button>
+                  <span class="conf-chip conf-neutral" id="chip-shop_address">待填</span>
+                </div>
+              </div>
+              <input type="text" class="brutal-input" id="field-shop_address" placeholder="山东省临沂市郯城县...">
+            </div>
+
+            <div class="form-row">
+              <label class="form-label">经营场所使用权属</label>
+              <div class="usage-switcher-group">
+                <button type="button" class="usage-tab-btn active" data-usage="own">自有产权</button>
+                <button type="button" class="usage-tab-btn" data-usage="lease">租赁门面</button>
+                <button type="button" class="usage-tab-btn" data-usage="free">无偿使用</button>
+              </div>
+            </div>
+
+            <div id="lease-box" style="display: none; background: #fff8e6; border: var(--border-medium); padding: 8px; box-shadow: 3px 3px 0 #000;">
+              <div class="wb-fields-two-col">
+                <div class="form-row">
+                  <div class="form-row-header">
+                    <label class="form-label" for="field-landlord_name">出租方 (房东) 姓名</label>
+                    <span class="conf-chip conf-neutral" id="chip-landlord_name">待填</span>
+                  </div>
+                  <input type="text" class="brutal-input" id="field-landlord_name" placeholder="房东真实姓名">
+                </div>
+                <div class="form-row">
+                  <div class="form-row-header">
+                    <label class="form-label" for="field-landlord_id">房东身份证号</label>
+                    <span class="conf-chip conf-neutral" id="chip-landlord_id">选填</span>
+                  </div>
+                  <input type="text" class="brutal-input" id="field-landlord_id" placeholder="房东18位身份证">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- @AI-ANCHOR: [HTML_WB_COL3_PIPELINE] 第 3 栏: 03 经营范围速配 + 01~05 积木矩阵 + 交付柜 -->
+        <div class="brutal-card">
+          <div class="card-top-meta">
+            <div>
+              <div class="card-num-category"><span class="cmyk-tag-green">03 // SCOPES &amp; PIPELINE</span> <span>套餐速切与积木出件</span></div>
+              <div class="card-main-heading">范围速配与积木出件</div>
+            </div>
+            <span class="conf-chip conf-green" id="active-steps-badge">已选 5 步 (1-5)</span>
+          </div>
+          <div class="card-scroll-body" style="gap: 7px;">
+
+            <!-- 找回的经营范围黄金套餐速切与实时预览微盒 -->
+            <div class="workbench-scope-mini-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+                <span class="form-label" style="font-size: 13px;">📦 黄金套餐速切 (已选 <b id="wb-scope-count" style="color: var(--accent-pink);">0</b> 项)</span>
+                <button class="brutal-btn btn-cyan btn-step-mini" id="btn-jump-scope-tab">🔍 沙盒精调/差集 ➔</button>
+              </div>
+              <div class="wb-quick-pkg-bar" id="wb-quick-pkg-bar"></div>
+              <div class="wb-scope-preview-text" id="wb-scope-preview-text">正在加载默认黄金套餐...</div>
+            </div>
+
+            <!-- 01~05 阶段积木快选 -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span class="form-label" style="font-size: 13px;">🧱 阶段积木编排 (单击启停 · 双击调参)</span>
+              </div>
+              <div class="preset-blocks-bar">
+                <button class="preset-pill active" id="btn-mode-to-end" data-preset="1,2,3,4,5">全套 01~05</button>
+                <button class="preset-pill" data-preset="2,3,4,5">免核名 02~05</button>
+                <button class="preset-pill" id="btn-mode-single-step" data-preset="2">仅范围 02</button>
+                <button class="preset-pill" data-preset="3">仅人员 03</button>
+                <button class="preset-pill" data-preset="4">仅场所 04</button>
+                <button class="preset-pill" data-preset="5">仅暂存 05</button>
+              </div>
+            </div>
+
+            <div class="step-track-list" id="step-blocks-container">
+              <div class="step-track-card active" data-step="1" title="单击：保留/剔除此步 | 双击：修改本步坐标与延时">
+                <div class="step-block-left">
+                  <span class="step-check-box">✓</span>
+                  <div>
+                    <div class="step-block-title">01. 名称自主申报与告知书</div>
+                    <div class="step-block-sub">16 步 · 承诺书倒计时 · 发起设立</div>
+                  </div>
+                </div>
+                <div class="step-block-actions">
+                  <button class="brutal-btn btn-yellow btn-step-mini" onclick="event.stopPropagation(); openStepConfigModal('step1')">🎯调参</button>
+                  <button class="brutal-btn btn-cyan btn-step-mini" onclick="event.stopPropagation(); recompileStep(1)">⚡单步</button>
+                </div>
+              </div>
+
+              <div class="step-track-card active" data-step="2" title="单击：保留/剔除此步 | 双击：修改本步坐标与延时">
+                <div class="step-block-left">
+                  <span class="step-check-box">✓</span>
+                  <div>
+                    <div class="step-block-title">02. 经营范围装配与许可确认</div>
+                    <div class="step-block-sub">8 步 · 自动差集点选 · 主营置顶</div>
+                  </div>
+                </div>
+                <div class="step-block-actions">
+                  <button class="brutal-btn btn-yellow btn-step-mini" onclick="event.stopPropagation(); openStepConfigModal('step2')">🎯调参</button>
+                  <button class="brutal-btn btn-cyan btn-step-mini" onclick="event.stopPropagation(); recompileStep(2)">⚡单步</button>
+                </div>
+              </div>
+
+              <div class="step-track-card active" data-step="3" title="单击：保留/剔除此步 | 双击：修改本步坐标与延时">
+                <div class="step-block-left">
+                  <span class="step-check-box">✓</span>
+                  <div>
+                    <div class="step-block-title">03. 经营者与联络员录入</div>
+                    <div class="step-block-sub">20 步 · 印章/银行选否 · 关联联络员</div>
+                  </div>
+                </div>
+                <div class="step-block-actions">
+                  <button class="brutal-btn btn-yellow btn-step-mini" onclick="event.stopPropagation(); openStepConfigModal('step3')">🎯调参</button>
+                  <button class="brutal-btn btn-cyan btn-step-mini" onclick="event.stopPropagation(); recompileStep(3)">⚡单步</button>
+                </div>
+              </div>
+
+              <div class="step-track-card active" data-step="4" title="单击：保留/剔除此步 | 双击：修改本步坐标与延时">
+                <div class="step-block-left">
+                  <span class="step-check-box">✓</span>
+                  <div>
+                    <div class="step-block-title">04. 经营场所填报与地图定位</div>
+                    <div class="step-block-sub">34 步 · 自有/租赁/无偿 · 高德标点</div>
+                  </div>
+                </div>
+                <div class="step-block-actions">
+                  <button class="brutal-btn btn-yellow btn-step-mini" onclick="event.stopPropagation(); openStepConfigModal('step4')">🎯调参</button>
+                  <button class="brutal-btn btn-cyan btn-step-mini" onclick="event.stopPropagation(); recompileStep(4)">⚡单步</button>
+                </div>
+              </div>
+
+              <div class="step-track-card active" data-step="5" title="单击：保留/剔除此步 | 双击：修改本步坐标与延时">
+                <div class="step-block-left">
+                  <span class="step-check-box">✓</span>
+                  <div>
+                    <div class="step-block-title">05. 属地监管所匹配与暂存</div>
+                    <div class="step-block-sub">14 步 · 乡镇所精准映射 · 暂存草稿</div>
+                  </div>
+                </div>
+                <div class="step-block-actions">
+                  <button class="brutal-btn btn-yellow btn-step-mini" onclick="event.stopPropagation(); openStepConfigModal('step5')">🎯调参</button>
+                  <button class="brutal-btn btn-cyan btn-step-mini" onclick="event.stopPropagation(); recompileStep(5)">⚡单步</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="brutal-btn btn-green" id="btn-generate-all" style="padding: 9px 12px; font-size: 15px; font-weight: 900; box-shadow: var(--shadow-hard-md); flex-shrink: 0;">
+              <span>⚡ 一键编译出件 (所选步骤 .Q + 配套文书)</span>
+            </button>
+
+            <div class="artifact-cabinet-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="font-size: 12.5px; font-weight: 900;">📁 桌面主体产物交付柜：</span>
+                <button class="brutal-btn btn-step-mini" id="btn-parse-q-trigger">🔄 解析.Q还原</button>
+              </div>
+              <div id="output-artifact-list" class="artifact-list-feed">
+                <div>待编译出件（自动输出至桌面客户同名文件夹并同步按键精灵 F10 槽位）...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- @AI-ANCHOR: [HTML_TAB2_SCOPE] 场景 02: 经营范围大字号宽屏沙盒 -->
+    <div class="tab-scene" id="scene-scope">
+      <div class="scene-scope-layout">
+        <div class="brutal-card scope-top-pkg-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px; border-bottom: var(--border-medium); background: var(--color-gray-100);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="cmyk-tag-pink">02 // GOLDEN PACKAGES</span>
+              <span style="font-size: 18px; font-weight: 900;">常用行业免审批黄金套餐</span>
+              <span class="conf-chip conf-green" id="package-count-badge">6 个</span>
+            </div>
+            <div style="font-size: 13.5px; font-weight: 900; color: var(--color-gray-700);">💡 点击套餐一键装配，下方 18px 大字号列表支持客户在旁同屏核对</div>
+          </div>
+          <div class="package-cloud-grid" id="package-list-container"></div>
+        </div>
+
+        <div class="scope-bottom-split">
+          <div class="brutal-card" style="overflow: hidden;">
+            <div class="card-top-meta">
+              <div>
+                <div class="card-num-category"><span class="cmyk-tag-green">SCOPES STREAM</span> <span>客户同屏大字展示区</span></div>
+                <div class="card-main-heading">已选经营范围 (<span id="scope-count-badge">0</span> 项)</div>
+              </div>
+              <button class="brutal-btn btn-pink" id="btn-clear-scopes" style="padding: 5px 12px; font-size: 13px;">🧹 清空列表</button>
+            </div>
+            <div style="padding: 10px 14px; background: var(--color-gray-100); border-bottom: var(--border-thick); display: flex; gap: 10px;">
+              <input type="text" class="brutal-input" id="scope-search-input" style="font-size: 16px; padding: 8px 12px;" placeholder="🔍 输入拼音首字母 (如: ybz / ryp / cy) 或汉字，毫秒检索 2064 官方底库...">
+              <button class="brutal-btn btn-yellow" id="btn-add-searched-scope" style="font-size: 15px; padding: 8px 18px;">＋ 选入首项</button>
+            </div>
+            <div id="scope-search-dropdown" class="scope-dropdown-panel"></div>
+            <div class="scope-stream-box" id="selected-scopes-stream"></div>
+          </div>
+
+          <div class="brutal-card" style="overflow: hidden;">
+            <div class="card-top-meta">
+              <div>
+                <div class="card-num-category"><span class="cmyk-tag-cyan">ALGEBRAIC DIFF</span> <span>防重复勾选引擎</span></div>
+                <div class="card-main-heading">政务网已有项代数差集</div>
+              </div>
+            </div>
+            <div class="card-scroll-body">
+              <div class="form-row">
+                <label class="form-label" for="native-scope-text">政务服务网原生经营范围 (直接粘贴已有文字)</label>
+                <textarea class="brutal-textarea" id="native-scope-text" rows="5" style="font-size: 15px;" placeholder="直接粘贴政务网已有的经营范围文字，系统自动计算差集 (A \ B)，自动将已有项灰化划线剔除，防止按键精灵重复点击取消勾选！"></textarea>
+              </div>
+              <button class="brutal-btn btn-cyan" id="btn-exec-diff" style="font-size: 15px; padding: 10px;"><span>🔍 计算代数差集 (自动剔除已有项)</span></button>
+              <div id="diff-summary-card" style="background: var(--color-gray-100); border: var(--border-medium); padding: 12px; font-family: var(--font-mono); font-size: 14px; flex: 1; overflow-y: auto; box-shadow: 4px 4px 0 #000;">
+                <div style="color: var(--color-gray-700); font-weight: 900;">📊 差集比对结果回显：</div>
+                <div id="diff-summary-content" style="margin-top: 6px; line-height: 1.65;">等待粘贴比对...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- @AI-ANCHOR: [HTML_TAB3_DOCS] 场景 03: 业务员文书智能洗牌与桌面直通出件工坊 (紧随填报与范围之后) -->
+    <div class="tab-scene" id="scene-docs">
+      <div class="scene-docs-layout">
+        <!-- 左侧：文书拖拽、智能清洗与出件总控 -->
+        <div class="brutal-card docs-ingest-card">
+          <div class="card-top-meta">
+            <div>
+              <div class="card-num-category"><span class="cmyk-tag-pink">03 // INGEST &amp; WASH</span> <span>业务员文书拖拽清洗</span></div>
+              <div class="card-main-heading">进料识别与桌面直通出件</div>
+            </div>
+            <span class="conf-chip conf-green">桌面直通 · 免建文件夹</span>
+          </div>
+          <div class="card-scroll-body" style="gap: 10px;">
+            <div class="doc-drop-zone" id="doc-drop-zone">
+              <div class="drop-icon">📂</div>
+              <div class="drop-title">拖拽或直接 Ctrl+V 粘贴业务员文书 (.doc / .docx)</div>
+              <div class="drop-sub">自动提取店名、经营者、地址、范围并按官方标准清洗重构</div>
+              <div style="margin-top: 8px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                <button class="brutal-btn btn-yellow" id="btn-browse-doc" style="font-size: 13px; padding: 5px 12px;" onclick="event.stopPropagation();"><span>📂 浏览本地文件...</span></button>
+                <button class="brutal-btn btn-cyan" id="btn-wash-pull-from-wb" style="font-size: 13px; padding: 5px 12px;" onclick="event.stopPropagation();" title="直接将 01 填报总控中已识别的客户要素一键带入文书工坊"><span>📥 从填报总控带入客户</span></button>
+                <button class="brutal-btn btn-pink" id="btn-wash-reset" style="font-size: 13px; padding: 5px 10px;" onclick="event.stopPropagation();"><span>🧹 清空重置</span></button>
+              </div>
+            </div>
+
+            <div class="doc-path-bar">
+              <input type="text" class="brutal-input" id="doc-path-input" placeholder="或直接粘贴文书绝对路径 / 文件名 (支持穿透检索桌面与微信目录)..." style="font-size: 13.5px; padding: 7px 10px;">
+              <button class="brutal-btn btn-cyan" id="btn-wash-path" style="font-size: 13.5px; padding: 7px 14px; flex-shrink: 0;"><span>🔍 洗牌提取</span></button>
+            </div>
+            <div id="wash-file-status" class="wash-status-banner" style="display: none;"></div>
+
+            <div class="doc-type-section">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span class="form-label">🎯 出件文书规范 (点击切换):</span>
+                <span id="wash-doc-type-badge" style="font-size: 12.5px; font-weight: 900; color: #111;">智能识别</span>
+              </div>
+              <div class="doc-type-pill-bar">
+                <button class="doc-type-pill active" data-doc-type="auto">🎯 自动识别</button>
+                <button class="doc-type-pill" data-doc-type="zhu_gai_shang">🏠 住改商证明</button>
+                <button class="doc-type-pill" data-doc-type="lease_contract">📑 房屋租赁合同</button>
+                <button class="doc-type-pill" data-doc-type="canyin_chengnuoshu">📜 餐饮承诺书</button>
+                <button class="doc-type-pill" data-doc-type="site_proof">🏢 场地使用证明</button>
+              </div>
+              <div class="wash-rule-hint" id="wash-rule-hint">
+                住改商自动路由民房四邻表/小区楼房业主表，匹配店名；纯DOCX出件，绝不生图。
+              </div>
+            </div>
+
+            <div style="margin-top: auto; padding-top: 6px;">
+              <button class="brutal-btn btn-green" id="btn-exec-wash-generate" style="width: 100%; font-size: 15.5px; padding: 12px 14px; font-weight: 900;">
+                ⚡ 一键洗牌生成标准文书并直通桌面 (免建文件夹 · 纯净无图)
+              </button>
+              <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-gray-700); margin-top: 4px; text-align: center; font-weight: 800;">
+                📌 产物直通桌面根目录，与填报总控共享单源文书渲染内核
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧：清洗要素核检与桌面交付柜 -->
+        <div class="brutal-card docs-fields-card">
+          <div class="card-top-meta">
+            <div>
+              <div class="card-num-category"><span class="cmyk-tag-cyan">03 // FIELDS &amp; OUTPUT</span> <span>清洗要素核对与双向同步</span></div>
+              <div class="card-main-heading">清洗要素与桌面交付柜</div>
+            </div>
+            <button class="brutal-btn btn-yellow btn-step-mini" id="btn-wash-push-to-wb" title="将当前清洗出的要素一键回填至 01 填报总控并跳转">📤 回填至填报总控</button>
+          </div>
+          <div class="card-scroll-body" style="gap: 10px;">
+            <div class="wash-est-box">
+              <span style="font-weight: 900; color: var(--color-gray-700);">🎯 预期生成文件名：</span>
+              <span id="wash-estimated-filename" style="font-family: var(--font-mono); font-weight: 900; color: #000;">等待清洗进料或从填报总控带入...</span>
+            </div>
+
+            <div class="wash-fields-grid">
+              <div class="form-row">
+                <label class="form-label" for="wash-subject">市场主体名称 / 店名 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（免字号可留空）</span></label>
+                <input type="text" class="brutal-input" id="wash-subject" placeholder="主体名称（免字号场地证明可留空）">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="wash-operator">经营者 / 承租人姓名 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（签字栏与合同命名）</span></label>
+                <input type="text" class="brutal-input" id="wash-operator" placeholder="经营者真实姓名">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="wash-operator-id">经营者 18 位身份证号</label>
+                <input type="text" class="brutal-input" id="wash-operator-id" placeholder="经营者18位身份证号">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="wash-rent-amount">年租金金额 (元/年) <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（默认 10000）</span></label>
+                <input type="number" class="brutal-input" id="wash-rent-amount" value="10000" placeholder="默认 10000">
+              </div>
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="form-label" for="wash-address">经营场所坐落详细地址 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（自动判定民房四邻或小区楼房业主表）</span></label>
+                <input type="text" class="brutal-input" id="wash-address" placeholder="详细地址（自动路由民房四邻表或小区楼房业主表）">
+              </div>
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="form-label" for="wash-scope">经营范围 / 主营业务描述 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（默认日用百货销售）</span></label>
+                <input type="text" class="brutal-input" id="wash-scope" placeholder="主营业务或经营范围（默认日用百货销售）">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="wash-landlord">出租方 / 房东姓名 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（自有留空）</span></label>
+                <input type="text" class="brutal-input" id="wash-landlord" placeholder="房东姓名（自有模式留空）">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="wash-landlord-id">房东身份证号</label>
+                <input type="text" class="brutal-input" id="wash-landlord-id" placeholder="房东身份证号">
+              </div>
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="form-label" for="wash-sign-date">文书签署日期 <span style="font-size: 11px; font-weight: normal; color: var(--color-gray-500);">（留空自动刷新为今日）</span></label>
+                <input type="text" class="brutal-input" id="wash-sign-date" placeholder="留空则自动使用办理当日日期">
+              </div>
+            </div>
+
+            <div id="wash-delivery-result" class="wash-delivery-card" style="display: none;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-weight: 900; font-size: 15px; color: #000;">🎉 标准文书已直通生成到桌面！</span>
+                <span class="conf-chip conf-green">Exit Code 0</span>
+              </div>
+              <div style="font-size: 17px; font-weight: 900; color: #000; margin-bottom: 3px;" id="wash-result-filename">--</div>
+              <div style="font-family: var(--font-mono); font-size: 12.5px; color: var(--color-gray-700); word-break: break-all; margin-bottom: 8px;" id="wash-result-path">--</div>
+              <div style="font-family: var(--font-mono); font-size: 12px; color: #222; font-weight: 800; margin-bottom: 10px;" id="wash-result-meta">--</div>
+              <div style="display: flex; gap: 10px;">
+                <button class="brutal-btn btn-yellow" id="btn-wash-open-file" style="flex: 1; padding: 8px; font-size: 14px;"><span>📂 打开 Word 文档</span></button>
+                <button class="brutal-btn btn-cyan" id="btn-wash-reveal-file" style="flex: 1; padding: 8px; font-size: 14px;"><span>📁 在桌面高亮显示</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- @AI-ANCHOR: [HTML_TAB4_CONFIG] 场景 04: 积木式门户坐标与延时工作台 -->
+    <div class="tab-scene" id="scene-settings">
+      <div class="brutal-card" style="width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+        <div class="card-top-meta" style="flex-shrink: 0;">
+          <div>
+            <div class="card-num-category"><span class="cmyk-tag-pink">04 // COORDINATE &amp; TIMING BLOCKS</span> <span>坐标方块与时间方块分离式调参</span></div>
+            <div class="card-main-heading">山东一窗通 371300 坐标与延时积木配置中心</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="brutal-btn btn-cyan" id="btn-toggle-json-mode"><span id="btn-toggle-json-text">📝 切换专家 JSON 模式</span></button>
+            <button class="brutal-btn btn-green" id="btn-save-profile"><span>💾 保存并热重载配置</span></button>
+          </div>
+        </div>
+
+        <div id="config-visual-toolbar" style="padding: 8px 16px; background: #fafafa; border-bottom: var(--border-medium); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; flex-wrap: wrap;">
+          <div class="config-step-pills" id="config-step-pills" style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="avant-nav-pill active" data-cfg-group="all">全部积木</button>
+            <button class="avant-nav-pill" data-cfg-group="step1">01 核名与承诺书</button>
+            <button class="avant-nav-pill" data-cfg-group="step2">02 经营范围</button>
+            <button class="avant-nav-pill" data-cfg-group="step3">03 人员与联络员</button>
+            <button class="avant-nav-pill" data-cfg-group="step4">04 场所与地图</button>
+            <button class="avant-nav-pill" data-cfg-group="step5">05 暂存与监管所</button>
+            <button class="avant-nav-pill" data-cfg-group="delays">⏱️ 延时与时间方块</button>
+          </div>
+          <input type="text" id="config-search-input" class="brutal-input" placeholder="🔍 快速过滤坐标或时间（如：承诺书、地图、延时...）" style="width: 280px; font-size: 14px; padding: 6px 10px;">
+        </div>
+
+        <div id="config-visual-container" style="flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 16px;"></div>
+
+        <div id="config-json-container" style="padding: 14px; flex: 1; display: none; flex-direction: column; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-family: var(--font-mono); font-size: 13.5px; font-weight: 900; color: var(--color-gray-700);">// JSON 源码实时双向同步，修改后点击右上角「保存并热重载配置」立即生效</span>
+            <button class="brutal-btn btn-yellow" id="btn-pick-coord"><span>🎯 3秒捕获屏幕物理坐标</span></button>
+          </div>
+          <textarea class="brutal-textarea" id="profile-json-editor" style="flex: 1; font-family: var(--font-mono); font-size: 14.5px; line-height: 1.55;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- @AI-ANCHOR: [HTML_TAB5_HISTORY] 场景 05: 历史办件档案库与精简效能条 (归档置末位) -->
+    <div class="tab-scene" id="scene-analytics">
+      <div class="brutal-card" style="width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+        <div class="card-top-meta" style="flex-shrink: 0;">
+          <div>
+            <div class="card-num-category"><span class="cmyk-tag-yellow">05 // HISTORY VAULT &amp; METRICS</span> <span>办件归档回溯 · 支持一键复原与清理</span></div>
+            <div class="card-main-heading">历史办件档案库与效能速览</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div class="compact-metric-pill" style="background: var(--accent-green);"><span>累计办件：</span><b id="metric-total-records-inline">0</b><span> 笔</span></div>
+            <div class="compact-metric-pill" style="background: var(--accent-yellow);"><span>底库检索：</span><b>&lt; 0.05 ms</b></div>
+            <div class="compact-metric-pill" style="background: var(--accent-blue);"><span>IR直解：</span><b>READY</b></div>
+          </div>
+        </div>
+
+        <div style="padding: 10px 16px; background: var(--color-gray-100); border-bottom: var(--border-thick); display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <input type="text" class="brutal-input" id="history-search-input" style="max-width: 520px; font-size: 15.5px;" placeholder="🔍 搜索历史办件（输入客户姓名、店铺字号、乡镇、电话或身份证号）...">
+          <button class="brutal-btn btn-pink" id="btn-clear-history"><span>🗑️ 清空全部历史</span></button>
+        </div>
+
+        <div class="history-card-flow" id="history-stream-container"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- @AI-ANCHOR: [HTML_MODALS_AND_HUD] 双击步骤弹窗、解析.Q弹窗、CMD+K 与 Mini-HUD -->
+  <div class="cmdk-backdrop" id="step-config-modal">
+    <div class="cmdk-panel" style="width: 920px; max-width: 95vw; max-height: 86vh;">
+      <div class="card-top-meta" style="background: var(--accent-yellow);">
+        <div>
+          <div class="card-num-category"><span class="cmyk-tag-pink">STEP QUICK TUNER</span> <span>双击步骤积木直达 · 坐标方块与时间方块独立调参</span></div>
+          <div class="card-main-heading" id="step-modal-title">步骤 01 坐标与延时快调</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="brutal-btn btn-green" id="btn-step-modal-save">💾 保存修改并生效</button>
+          <button class="brutal-btn btn-pink" id="btn-step-modal-close">✕ 关闭</button>
+        </div>
+      </div>
+      <div id="step-modal-body" style="padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-height: calc(86vh - 80px);"></div>
+    </div>
+  </div>
+
+  <div class="cmdk-backdrop" id="parse-q-modal">
+    <div class="cmdk-panel" style="width: 680px; max-width: 94vw;">
+      <div class="card-top-meta" style="background: var(--accent-blue);">
+        <div>
+          <div class="card-num-category"><span class="cmyk-tag-yellow">DIRECT .Q PARSER</span> <span>内嵌 @GTH-STATE-IR 零损解析 · 兼容历史 .Q 脚本</span></div>
+          <div class="card-main-heading">解析 .Q 脚本一键复原办件</div>
+        </div>
+        <button class="brutal-btn btn-pink" id="btn-parse-q-close">✕</button>
+      </div>
+      <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <textarea class="brutal-textarea" id="parse-q-input" rows="7" placeholder="请粘贴 .Q 脚本的文本内容，或直接输入本地 .Q 脚本文件的完整路径..."></textarea>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="brutal-btn btn-green" id="btn-parse-q-confirm">⚡ 立即解析并回填表单</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cmdk-backdrop" id="cmdk-backdrop">
+    <div class="cmdk-panel">
+      <div class="cmdk-search-bar">
+        <span style="font-size: 22px;">⚡</span>
+        <input type="text" class="cmdk-search-input" id="cmdk-search-input" placeholder="键入指令或拼音首字母检索经营范围 (ESC 退出)..." autocomplete="off">
+      </div>
+      <div class="cmdk-results-stream" id="cmdk-results-container"></div>
+    </div>
+  </div>
+
+  <div class="mini-hud-container" id="mini-hud-container">
+    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #000; padding-bottom: 4px;">
+      <div style="font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 6px;">
+        <span style="background: #000; color: var(--accent-green); padding: 1px 6px;">⚡ HUD</span>
+        <span id="hud-customer-name">待办客户</span>
+      </div>
+      <button class="brutal-btn" id="btn-hud-restore" style="padding: 2px 8px; font-size: 12px;"><span>🗖 全景</span></button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; font-weight: 900;">
+      <span>热键:</span>
+      <span style="background: var(--accent-yellow); padding: 1px 6px; border: 2px solid #000;">F10 启动</span>
+      <span style="background: #f1f5f9; padding: 1px 6px; border: 2px solid #000;">F2 暂停</span>
+      <span style="background: var(--accent-pink); color: #fff; padding: 1px 6px; border: 2px solid #000;">F7 终止</span>
+      <span id="hud-step-tag" style="margin-left: auto; font-weight: 900;">步1~5</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <button class="brutal-btn" style="flex: 1; padding: 4px; font-size: 12px;" onclick="copyHudField('name')">复制姓名</button>
+      <button class="brutal-btn" style="flex: 1; padding: 4px; font-size: 12px;" onclick="copyHudField('id')">复制身份证</button>
+      <button class="brutal-btn" style="flex: 1; padding: 4px; font-size: 12px;" onclick="copyHudField('phone')">复制电话</button>
+      <button class="brutal-btn" style="flex: 1; padding: 4px; font-size: 12px;" onclick="copyHudField('addr')">复制地址</button>
+      <button class="brutal-btn btn-green" style="flex: 1.2; padding: 4px; font-size: 12px;" onclick="executeGenerateAll()">即刻重编</button>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-container"></div>
+
+  <!-- GTH V3.0 微模块化 JS 按职责独立加载 -->
+  <script src="js/state.js?v=3.0.0"></script>
+  <script src="js/config_meta.js?v=3.0.0"></script>
+  <script src="js/tab_workbench.js?v=3.0.0"></script>
+  <script src="js/tab_scope.js?v=3.0.0"></script>
+  <script src="js/tab_docs.js?v=3.0.0"></script>
+  <script src="js/tab_config.js?v=3.0.0"></script>
+  <script src="js/tab_history.js?v=3.0.0"></script>
+  <script src="js/app.js?v=3.0.0"></script>
+</body>
+</html>
