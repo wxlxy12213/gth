@@ -3,7 +3,7 @@
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2011%20%7C%20Edge%20WebView2-blue?style=flat-square)](https://developer.microsoft.com/microsoft-edge/webview2/)
 [![Python](https://img.shields.io/badge/Python-3.11%2B%20%2F%203.15-yellow?style=flat-square)](https://www.python.org/)
-[![UI Style](https://img.shields.io/badge/Design-Neo--Brutalist%20Experimental-ff007d?style=flat-square)](https://www.stylekit.top/zh/templates/anx-blog)
+[![UI Style](https://img.shields.io/badge/Design-Neo--Brutalist%20Reference-ff007d?style=flat-square)](https://github.com/wxlxy12213/anx-blog-template)
 [![RPA Engine](https://img.shields.io/badge/RPA-KeySprite%202014%20.Q%20%2B%20Action%20IR-green?style=flat-square)](https://github.com/wxlxy12213/gth)
 
 ---
@@ -21,22 +21,12 @@
 
 ---
 
-## 2. 视觉与美术设计系统 (Visual & Aesthetic Design System)
+## 2. 视觉与美术设计参考 (Visual & UI Reference)
 
-本工作台在界面交互与视觉表达上，摒弃了传统企业管理软件单调、灰暗的表格模板，贯彻了独特的个人审美与实验性设计语言，全面对齐**人类使用哲学**与 **1080P 全屏免滚工程学**：
+本工作台界面设计全面采用 **新野兽派（Neo-Brutalism）与先锋工装控制台（Cyber-Industrial Console）** 风格，前端审美、排版与组件源码唯一真源收敛于独立参考仓库：
 
-### 2.1 美术溯源与设计基因
-- **核心溯源**：本系统界面设计参考并借鉴了开源工程 [实验风博客示例 (Anx Blog)](https://www.stylekit.top/zh/templates/anx-blog)（基于 StyleKit Templates 的实验性设计体系）。
-- **设计哲学**：新野兽派（Neo-Brutalism）与先锋工装控制台（Cyber-Industrial Console）的深度融合。
-
-### 2.2 强化审美特征与人类工程学
-- **字体风格大胆（Loud & Bold Typography）**：大面积采用超粗字重无衬线体（Impact / Arial Black / PingFang SC Heavy）与等宽工程字体（Cascadia Code / Consolas），标题与核心状态信息极具辨识度。
-- **边框粗犷高反差 & 实体硬落焦投影**：全界面采用纯黑实体线描边与硬落焦阴影（无高斯模糊扩散），赋予界面如工业物理按键般的扎实按压反馈。
-- **方格工程画布与 CMYK 电光强调色**：以 44px 浅灰参考网格为画布基底，点缀高饱和度的电光粉（`#ff007d`）、电光绿（`#ccff00`）、青蓝（`#00d9ff`）与日光黄（`#ffd400`）。
-- **符合人类直觉的导航动线与温和三态校验**：
-  - 顶部导航按使用频次与作业顺序划分为**主作业流（`01 填报总控` ➔ `02 经营范围沙盒` ➔ `03 文书工坊`）**与**辅助及归档区（`04 坐标与延时` ➔ `05 历史档案`）**，历史档案归置最末位。
-  - 摒弃未填先报错的刺眼红牌，采用**温和三态校验芯片**（未填显示中性灰 `待填` / `免字号`，填错格式或身份证校验位错误才亮红提醒，核验通过亮绿 `✓ 就绪`）。
-  - 针对 **1080P (`1920×1080`)** 屏幕精调纵向空间，在「01 填报总控」一屏三栏内完整囊括智能进料、独立文书快出、核心要素、黄金套餐速切、已选范围预览、01~05 积木矩阵与产物交付柜。
+- **官方参考仓库**：[wxlxy12213/anx-blog-template](https://github.com/wxlxy12213/anx-blog-template)（核心实现参考 `app/templates/anx-blog/page.tsx` 与 Tailwind 样式）
+- **核心特征**：Playfair Display 衬线标题、中空镂空描边字、纯黑零模糊硬落焦阴影、高饱和 CMYK 电光色谱与 1080P 一屏免滚微动机械按压反馈。
 
 ---
 
