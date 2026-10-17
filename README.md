@@ -26,7 +26,6 @@
 本工作台界面设计全面采用 **新野兽派（Neo-Brutalism）与先锋工装控制台（Cyber-Industrial Console）** 风格，前端审美、排版与组件源码唯一真源收敛于独立参考仓库：
 
 - **官方参考仓库**：[wxlxy12213/anx-blog-template](https://github.com/wxlxy12213/anx-blog-template)（核心实现参考 `app/templates/anx-blog/page.tsx` 与 Tailwind 样式）
-- **核心特征**：Playfair Display 衬线标题、中空镂空描边字、纯黑零模糊硬落焦阴影、高饱和 CMYK 电光色谱与 1080P 一屏免滚微动机械按压反馈。
 
 ---
 
