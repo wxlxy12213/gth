@@ -1,0 +1,47 @@
+[
+  {
+    "id": "371322199110130739_1792230167976",
+    "timestamp": "2026-10-17 17:42:47",
+    "owner_name": "测试人",
+    "owner_id": "371322199110130739",
+    "phone": "",
+    "shop_name": "郯城县马头镇测试便利店",
+    "shop_address": "山东省郯城县马头镇东爱国村1号",
+    "town": "马头镇",
+    "supervisor": "马头所",
+    "state_dict": {
+      "schema_version": 2,
+      "owner_name": "测试人",
+      "owner_id": "371322199110130739",
+      "phone": "",
+      "email": "",
+      "id_addr": "",
+      "shop_name": "郯城县马头镇测试便利店",
+      "shop_address": "山东省郯城县马头镇东爱国村1号",
+      "town": "马头镇",
+      "street_rest": "",
+      "house_use": "住宅",
+      "usage": "own",
+      "landlord_name": "",
+      "landlord_id": "",
+      "cert_name": "房屋使用证明",
+      "supervisor": "马头所",
+      "agent_addr": "",
+      "capital": "1",
+      "active_package": "百货店",
+      "raw_scope_text": "",
+      "scopes": [],
+      "step_start": 1,
+      "step_end": 5,
+      "run_mode": "to_end",
+      "enabled_steps": [],
+      "stage": 2,
+      "confidence": {},
+      "warnings": []
+    },
+    "extra": {
+      "target_dir": "C:\\Users\\admin\\Desktop\\郯城县马头镇测试便利店",
+      "q_file": "C:\\Users\\admin\\Desktop\\郯城县马头镇测试便利店\\个体户填报_测试人_1至5步.Q"
+    }
+  }
+]

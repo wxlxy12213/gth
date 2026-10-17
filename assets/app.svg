@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Technical Blueprint Dot Grid (工程蓝图微点阵) -->
+    <pattern id="tech-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="14" r="1.5" fill="#000000" opacity="0.08" />
+    </pattern>
+    <!-- Card Top Corner Clip for Awning (商铺挑檐圆角自适应裁剪) -->
+    <clipPath id="card-clip">
+      <rect x="80" y="84" width="320" height="300" rx="40" />
+    </clipPath>
+  </defs>
+
+  <!-- ==========================================
+       LAYER 1: SQUIRCLE BASEPLATE (纯白底座与纯黑硬落焦阴影)
+       ========================================== -->
+  <!-- Hard Drop Shadow (+16, +16) 零高斯纯黑硬实体落影 -->
+  <rect x="44" y="44" width="432" height="432" rx="88" fill="#000000" />
+  <!-- Main Canvas: Pure White Base with 16px Solid Black Border -->
+  <rect x="28" y="28" width="432" height="432" rx="88" fill="#ffffff" stroke="#000000" stroke-width="16" stroke-linejoin="round" />
+  <!-- Blueprint Dot Grid Overlay (开发者蓝图底网) -->
+  <rect x="36" y="36" width="416" height="416" rx="80" fill="url(#tech-grid)" pointer-events="none" />
+
+  <!-- Dev Engineering Coordinate Crosshairs (+) 四角工程坐标十字标 -->
+  <g stroke="#000000" stroke-width="3" stroke-linecap="square" opacity="0.45">
+    <!-- Top-Left -->
+    <line x1="60" y1="68" x2="76" y2="68" /><line x1="68" y1="60" x2="68" y2="76" />
+    <!-- Top-Right -->
+    <line x1="412" y1="68" x2="428" y2="68" /><line x1="420" y1="60" x2="420" y2="76" />
+    <!-- Bottom-Left -->
+    <line x1="60" y1="420" x2="76" y2="420" /><line x1="68" y1="412" x2="68" y2="428" />
+    <!-- Bottom-Right -->
+    <line x1="412" y1="420" x2="428" y2="420" /><line x1="420" y1="412" x2="420" y2="428" />
+  </g>
+
+  <!-- ==========================================
+       LAYER 2: COMMERCIAL & BUREAUCRATIC STAGE (政务商业牌匾公文)
+       ========================================== -->
+  <!-- Stage Card Hard Shadow (+14, +14) -->
+  <rect x="94" y="98" width="320" height="300" rx="40" fill="#000000" />
+  <!-- Stage Card: Electric Cyan #00d9ff with 12px Black Stroke -->
+  <rect x="80" y="84" width="320" height="300" rx="40" fill="#00d9ff" stroke="#000000" stroke-width="12" stroke-linejoin="round" />
+
+  <!-- ==========================================
+       LAYER 3: STOREFRONT AWNING (个体工商户商铺门头条纹篷)
+       ========================================== -->
+  <g clip-path="url(#card-clip)">
+    <!-- Awning Panel 1: Electric Hot Pink #ff007d -->
+    <path d="M 80,84 L 80,175 Q 120,198 160,175 L 160,84 Z" fill="#ff007d" stroke="#000000" stroke-width="8" stroke-linejoin="round" />
+    <!-- Awning Panel 2: Pure White #ffffff -->
+    <path d="M 160,84 L 160,175 Q 200,198 240,175 L 240,84 Z" fill="#ffffff" stroke="#000000" stroke-width="8" stroke-linejoin="round" />
+    <!-- Awning Panel 3: Electric Hot Pink #ff007d -->
+    <path d="M 240,84 L 240,175 Q 280,198 320,175 L 320,84 Z" fill="#ff007d" stroke="#000000" stroke-width="8" stroke-linejoin="round" />
+    <!-- Awning Panel 4: Pure White #ffffff -->
+    <path d="M 320,84 L 320,175 Q 360,198 400,175 L 400,84 Z" fill="#ffffff" stroke="#000000" stroke-width="8" stroke-linejoin="round" />
+  </g>
+  <!-- Awning Base Cast Shadow Line (挑檐结构投影线) -->
+  <path d="M 86,198 L 394,198" stroke="#000000" stroke-width="6" opacity="0.18" stroke-linecap="round" />
+
+  <!-- Terminal RPA Pill Badge (底层极速 RPA 标识) -->
+  <g>
+    <rect x="102" y="336" width="76" height="28" rx="6" fill="#000000" />
+    <text x="140" y="355" font-family="Consolas, 'Courier New', monospace" font-size="13" font-weight="900" fill="#ccff00" text-anchor="middle">&gt;_ RPA</text>
+  </g>
+
+  <!-- ==========================================
+       LAYER 4: AUTOMATION LIGHTNING BOLT (核名与极速自动化穿透闪电)
+       ========================================== -->
+  <g>
+    <!-- Lightning Solid Hard Drop Shadow (+12, +12) -->
+    <polygon points="287,60 177,250 257,250 167,440 337,210 257,210" fill="#000000" />
+    <!-- Lightning Main Body: Acid Lime #ccff00 with 12px Black Stroke -->
+    <polygon points="275,48 165,238 245,238 155,428 325,198 245,198" fill="#ccff00" stroke="#000000" stroke-width="12" stroke-linejoin="miter" />
+    <!-- Lightning Cyber Facet: Brilliant Yellow #ffd400 Contrast Wedge -->
+    <polygon points="275,48 155,428 325,198 245,198" fill="#ffd400" />
+    <!-- Lightning Center Seam Line (分面折线) -->
+    <line x1="275" y1="48" x2="155" y2="428" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+    <!-- High-Voltage White Core Highlight (高能放电白芯) -->
+    <polyline points="266,74 195,226 235,226 182,382" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- ==========================================
+       LAYER 5: OFFICIAL BUREAU SEAL (政务八角核准朱印)
+       ========================================== -->
+  <g>
+    <!-- Seal Hard Drop Shadow (+8, +8) -->
+    <polygon points="331,291 375,291 405,321 405,365 375,395 331,395 301,365 301,321" fill="#000000" />
+    <!-- Seal Body: Electric Hot Pink #ff007d with 10px Black Stroke -->
+    <polygon points="323,283 367,283 397,313 397,357 367,387 323,387 293,357 293,313" fill="#ff007d" stroke="#000000" stroke-width="10" stroke-linejoin="round" />
+    <!-- Inner Dotted Security Ring (防伪公文环线) -->
+    <circle cx="345" cy="335" r="36" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="5 3" />
+    <!-- Central Official 5-Point Star: Brilliant Yellow #ffd400 (市监政务星芒) -->
+    <polygon points="345,307 349,318 360,318 351,325 354,336 345,329 336,336 339,325 330,318 341,318" fill="#ffd400" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
+    <!-- Official Stamp Text "核准" -->
+    <text x="345" y="362" font-family="'Arial Black', Impact, 'PingFang SC', sans-serif" font-size="17" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">核准</text>
+  </g>
+
+  <!-- ==========================================
+       LAYER 6: AVANT-GARDE GTH·PRO IDENTITY BADGE (先锋斜切标牌)
+       ========================================== -->
+  <g transform="rotate(-8 135 115)">
+    <!-- Pill Hard Drop Shadow (+6, +6) -->
+    <rect x="66" y="96" width="136" height="42" rx="10" fill="#000000" />
+    <!-- Pill Body: Brilliant Yellow #ffd400 with 7px Black Stroke -->
+    <rect x="60" y="90" width="136" height="42" rx="10" fill="#ffd400" stroke="#000000" stroke-width="7" stroke-linejoin="round" />
+    <!-- Identity Typography -->
+    <text x="128" y="119" font-family="'Arial Black', Impact, sans-serif" font-size="18" font-weight="900" fill="#000000" text-anchor="middle" letter-spacing="1">GTH·PRO</text>
+    <!-- Left Cyber Rivet Dot (工业铆钉) -->
+    <circle cx="74" cy="111" r="3" fill="#000000" />
+  </g>
+</svg>

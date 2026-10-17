@@ -1,0 +1,31 @@
+# ─── 桌面端 AI 极速检索物理屏蔽盾 (.rgignore / .geminiignore / .cursorignore / .aiignore) ───
+# 彻底阻断 ripgrep (rg)、Antigravity、Cursor、Windsurf 扫描超大字典与缓存目录
+config/scope_library_371300.json
+ui/js/config_meta.js
+.cache/
+.cache/**
+build/
+dist/
+output/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.whl
+*.exe
+*.dll
+*.so
+*.dylib
+*.zip
+*.tar.gz
+*.7z
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.pdf
+*.docx
+*.doc
+README.md
+tests/test_edge_cases.py

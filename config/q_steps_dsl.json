@@ -1,0 +1,47 @@
+{
+  "version": "2.0",
+  "description": "GTH V2 按键精灵 (.Q) 步骤声明式扩展与钩子配置（可在不改 Python 代码的前提下为任意步骤增删前置/后置点击或延时）",
+  "steps": {
+    "1": {
+      "key": "heming",
+      "name": "名称自主申报与告知书打印",
+      "enabled": true,
+      "pre_actions": [],
+      "post_actions": []
+    },
+    "2": {
+      "key": "scope",
+      "name": "经营范围装配与许可确认",
+      "enabled": true,
+      "pre_actions": [],
+      "post_actions": []
+    },
+    "3": {
+      "key": "person",
+      "name": "经营者与联络员信息录入",
+      "enabled": true,
+      "pre_actions": [],
+      "post_actions": []
+    },
+    "4": {
+      "key": "addr",
+      "name": "经营场所填报与地图定位",
+      "enabled": true,
+      "pre_actions": [],
+      "post_actions": []
+    },
+    "5": {
+      "key": "supervisor",
+      "name": "暂存业务与属地监管所匹配",
+      "enabled": true,
+      "pre_actions": [],
+      "post_actions": []
+    }
+  },
+  "action_syntax_examples": [
+    {"op": "click", "target": "确认弹窗确定", "delay": "confirm_ms"},
+    {"op": "delay", "ms": "step_wait_ms"},
+    {"op": "keypress", "key": "Enter", "count": 1, "delay": "submit_settle_ms"},
+    {"op": "say", "text": "自定义文本", "clear": true, "delay": "type_ms"}
+  ]
+}
